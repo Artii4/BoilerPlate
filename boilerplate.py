@@ -18,7 +18,7 @@ def isIn(item, array):
 def html(project_name):
     try:
         os.mkdir(project_name)
-    except(FileExistsError):
+    except(FileExistsError, IsADirectoryError):
         confirmation = input("Folder already exists, do you want to continue? (y/n)")
         if confirmation.lower() != 'y':
             exit()
@@ -43,6 +43,34 @@ def html(project_name):
     stylesheet = open(css, "w")
     script = open(js, "w")
 
+def c(project_name):
+    try:
+        os.mkdir(project_name)
+    except(FileExistsError, IsADirectoryError):
+        confirmation = input("Folder already exists, do you want to continue? (y/n)")
+        if confirmation.lower() != 'y':
+            exit()
+    c = project_name + '/'
+    main = open(f"{c}main.c", 'w')
+    main.write(f'''#include <stdio.h>
+int main() {{
+    printf("{project_name}")
+    return 0;
+}}''')
+def cpp(project_name):
+    try:
+        os.mkdir(project_name)
+    except(FileExistsError, IsADirectoryError):
+        confirmation = input("Folder already exists, do you want to continue? (y/n)")
+        if confirmation.lower() != 'y':
+            exit()
+    cpp = project_name + '/'
+    main = open(f"{cpp}main.cpp", 'w')
+    main.write(f'''#include <iostream>
+int main() {{
+    std::cout << "{project_name}" << '\\n';
+    return 0;
+}}''')
 
 if len(sys.argv) == 1:
     print("Expected argument")
@@ -57,3 +85,7 @@ else:
         if lang == "html":
             html(project_name)
             print("Project made!")
+        elif lang == 'c':
+            c(project_name)
+        elif lang == 'cpp':
+            cpp(project_name)
